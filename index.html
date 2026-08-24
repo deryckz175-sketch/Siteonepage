@@ -1,0 +1,677 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trilha de Projetos · Green Belt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --roxo:#6B1E9E;
+    --roxo-forte:#4A1270;
+    --roxo-claro:#F3EAF9;
+    --tinta:#14161A;
+    --tinta-2:#5B6470;
+    --cinza:#A8AFB9;
+    --trilho:#E4E8ED;
+    --fundo:#F6F7F9;
+    --papel:#FFFFFF;
+    --linha:#E8EBF0;
+    --verde:#14804A;
+    --ambar:#B45309;
+    --vermelho:#D8140A;
+    --display:'Archivo',system-ui,sans-serif;
+    --corpo:'IBM Plex Sans',system-ui,sans-serif;
+    --dado:'IBM Plex Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--fundo);
+    color:var(--tinta);
+    font-family:var(--corpo);
+    font-size:14px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{width:100%;max-width:2200px;margin:0 auto;padding:28px clamp(14px,3vw,40px) 64px;box-sizing:border-box}
+
+  /* ---------- cabeçalho ---------- */
+  .topo{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:22px}
+  h1{
+    font-family:var(--display);font-weight:700;font-size:30px;line-height:1;
+    letter-spacing:-.02em;text-transform:uppercase;color:var(--roxo-forte);margin:0 0 6px;
+  }
+  .sub{
+    font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--tinta-2);
+  }
+  .acoes{display:flex;gap:8px;flex-wrap:wrap}
+  button.btn{
+    font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;padding:9px 15px;border-radius:6px;cursor:pointer;
+    border:1px solid var(--linha);background:var(--papel);color:var(--tinta-2);
+    transition:background .15s,color .15s,border-color .15s;
+  }
+  button.btn:hover{background:var(--roxo-claro);color:var(--roxo-forte);border-color:#DCC8EA}
+  button.btn.primaria{background:var(--roxo);color:#fff;border-color:var(--roxo)}
+  button.btn.primaria:hover{background:var(--roxo-forte);color:#fff;border-color:var(--roxo-forte)}
+  :focus-visible{outline:2px solid var(--roxo);outline-offset:2px}
+
+  /* ---------- indicadores ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+  .kpi{
+    background:var(--papel);border:1px solid var(--linha);border-radius:8px;
+    padding:14px 16px;display:flex;align-items:baseline;gap:10px;
+  }
+  .kpi b{font-family:var(--dado);font-weight:600;font-size:30px;line-height:1;letter-spacing:-.03em}
+  .kpi span{
+    font-family:var(--display);font-weight:600;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--tinta-2);
+  }
+  .kpi.ativos b{color:var(--roxo)}
+  .kpi.prazo b{color:var(--verde)}
+  .kpi.atencao b{color:var(--ambar)}
+  .kpi.atraso b{color:var(--vermelho)}
+
+  /* ---------- quadro ---------- */
+  .quadro{
+    background:var(--papel);border:1px solid var(--linha);border-radius:10px;
+    overflow:visible;
+  }
+
+  .lin{
+    display:grid;
+    grid-template-columns:minmax(150px,260px) minmax(90px,152px) minmax(70px,96px) 44px 1fr;
+    align-items:center;
+    border-bottom:1px solid var(--linha);
+    column-gap:6px;
+  }
+  .lin:last-child{border-bottom:0}
+  .lin.cab{border-bottom:1px solid var(--linha);background:var(--papel);position:sticky;top:0;z-index:5}
+
+  .cel{padding:9px 12px;min-width:0}
+  .cel.trilha{padding:9px 22px 9px 14px}
+
+  /* --------- cabeçalho das fases + números --------- */
+  .fases{display:grid;gap:3px;margin-bottom:6px}
+  .fase{
+    font-family:var(--display);font-weight:600;font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;color:#fff;background:var(--roxo);
+    text-align:center;padding:3px 2px;border-radius:3px;
+  }
+  .fase.f2{background:#7C34AC}
+  .fase.f3{background:#8E4ABA}
+  .fase.f4{background:#A061C8}
+  .fase.f5{background:#B278D6}
+
+  .nums{display:grid}
+  .num{
+    font-family:var(--dado);font-size:10px;color:var(--tinta-2);
+    text-align:center;font-weight:500;
+  }
+
+  .rot{
+    font-family:var(--display);font-weight:600;font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--tinta-2);
+  }
+
+  /* ---------- campos editáveis ---------- */
+  .nome,.lider{
+    width:100%;border:0;background:transparent;font-family:var(--corpo);
+    color:var(--tinta);border-radius:4px;padding:4px 6px;
+  }
+  .nome{
+    font-size:13px;font-weight:500;line-height:1.35;
+    white-space:normal;word-break:break-word;cursor:text;
+  }
+  .nome:focus{outline:none}
+  .lider{font-size:12px;color:var(--tinta-2)}
+  .nome:hover,.lider:hover{background:#F2F4F7}
+  .nome:focus,.lider:focus{background:#fff;box-shadow:0 0 0 2px var(--roxo-claro);outline:1px solid var(--roxo)}
+  .idp{
+    font-family:var(--dado);font-size:11px;font-weight:600;color:var(--roxo);
+    display:inline-block;min-width:24px;padding-top:5px;flex:0 0 auto;
+  }
+  .linha-nome{display:flex;align-items:flex-start;gap:2px}
+
+  .status{
+    display:block;font-family:var(--display);font-weight:600;font-size:9.5px;letter-spacing:.07em;
+    text-transform:uppercase;border:1px solid transparent;border-radius:20px;
+    padding:5px 8px;width:100%;text-align:center;cursor:default;
+    user-select:none;white-space:nowrap;
+  }
+  .s-prazo{background:#E7F4EE;color:var(--verde)}
+  .s-atencao{background:#FDF1E3;color:var(--ambar)}
+  .s-atraso{background:#FEF2F1;color:var(--vermelho)}
+  .s-ok{background:var(--roxo-claro);color:var(--roxo-forte)}
+
+  .faserot{
+    font-family:var(--display);font-weight:600;font-size:10px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--roxo-forte);text-align:center;
+  }
+  .pct{font-family:var(--dado);font-size:13px;font-weight:600;text-align:center}
+
+  /* ---------- o trilho ---------- */
+  .rail{display:grid;position:relative}
+  .est{position:relative;height:24px;display:flex;align-items:center;justify-content:center}
+  .est::after{
+    content:'';position:absolute;left:50%;right:-50%;top:50%;height:3px;
+    transform:translateY(-50%);background:var(--trilho);z-index:0;
+  }
+  .est:last-child::after{display:none}
+  .est.feito-ate::after{background:var(--roxo)}
+
+  .pt{
+    position:relative;z-index:1;width:13px;height:13px;border-radius:50%;
+    border:2.5px solid var(--cinza);background:var(--papel);cursor:pointer;padding:0;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .pt:hover{transform:scale(1.45);box-shadow:0 0 0 4px rgba(107,30,158,.13)}
+  .pt.feita{background:var(--roxo);border-color:var(--roxo)}
+  .pt.atual{
+    background:var(--papel);border-color:var(--roxo);border-width:3.5px;
+    width:16px;height:16px;box-shadow:0 0 0 4px rgba(107,30,158,.12);
+  }
+
+  .dica{
+    position:fixed;z-index:60;pointer-events:none;opacity:0;
+    background:var(--tinta);color:#fff;font-size:11.5px;line-height:1.35;
+    padding:7px 10px;border-radius:6px;max-width:230px;
+    transition:opacity .12s ease;
+  }
+  .dica b{font-family:var(--dado);font-weight:600;color:#D9B6F0}
+  .dica.on{opacity:1}
+
+  /* ---------- rodapé ---------- */
+  .legenda{
+    display:flex;gap:22px;flex-wrap:wrap;align-items:center;
+    margin-top:16px;font-size:12px;color:var(--tinta-2);
+  }
+  .lg{display:flex;align-items:center;gap:7px}
+  .lgpt{width:13px;height:13px;border-radius:50%;border:2.5px solid var(--cinza);background:#fff}
+  .lgpt.feita{background:var(--roxo);border-color:var(--roxo)}
+  .lgpt.atual{border-color:var(--roxo);border-width:3px}
+  .nota{margin-top:14px;font-size:12px;color:var(--tinta-2);line-height:1.6}
+  .nota kbd{
+    font-family:var(--dado);font-size:11px;background:var(--roxo-claro);color:var(--roxo-forte);
+    padding:1px 6px;border-radius:4px;font-weight:600;
+  }
+  .salvo{font-family:var(--dado);font-size:11px;color:var(--tinta-2)}
+
+  .rodape{
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    margin-top:22px;padding-top:14px;border-top:1px solid var(--linha);
+    font-size:11.5px;color:var(--tinta-2);
+  }
+
+  /* ---------- etapas de referência ---------- */
+  details.ref{margin-top:20px}
+  details.ref summary{
+    font-family:var(--display);font-weight:600;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--tinta-2);cursor:pointer;padding:6px 0;
+  }
+  .refgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:10px}
+  .refcol h4{
+    font-family:var(--display);font-weight:600;font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--roxo);margin:0 0 7px;
+  }
+  .refcol li{font-size:12px;color:var(--tinta-2);margin-bottom:4px;line-height:1.4}
+  .refcol ol{margin:0;padding-left:20px}
+
+  @media (max-width:900px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .refgrid{grid-template-columns:repeat(2,1fr)}
+    h1{font-size:23px}
+  }
+
+  /* ---------- abaixo de 1100px: cartões empilhados, trilha sempre 100% da largura ---------- */
+  @media (max-width:1100px){
+    .lin{
+      display:flex;flex-wrap:wrap;align-items:center;
+      column-gap:14px;row-gap:8px;padding:13px 14px;
+    }
+    .lin .cel{padding:0}
+    .lin > .cel:nth-child(1){flex:1 1 100%;order:1}
+    .lin > .cel:nth-child(2){order:2}
+    .lin > .cel:nth-child(3){order:3}
+    .lin > .cel:nth-child(4){order:4}
+    .lin > .cel.trilha{flex:1 1 100%;order:5;padding-top:2px}
+    .faserot,.pct{text-align:left}
+    .lin.cab{padding:10px 14px 8px}
+    .lin.cab > .cel:not(.trilha){display:none}
+    .lin.cab > .cel.trilha{flex:1 1 100%}
+  }
+  @media (max-width:520px){
+    .pt{width:10px;height:10px;border-width:2px}
+    .pt.atual{width:13px;height:13px;border-width:3px}
+    .num{font-size:8px}
+    .fase{font-size:7px;padding:3px 1px;letter-spacing:0}
+    .cel.trilha{padding-left:0;padding-right:8px}
+  }
+  @media (max-width:400px){
+    .fase{font-size:6px}
+  }
+
+  @media print{
+    body{background:#fff}
+    .acoes,.nota,details.ref,.salvo{display:none}
+    .quadro{overflow:visible;border-color:#ccc}
+    .wrap{padding:0;max-width:none}
+    @page{size:A4 landscape;margin:10mm}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important}
+  }
+</style>
+
+<div class="wrap">
+  <div class="topo">
+    <div>
+      <h1>Trilha de Projetos</h1>
+      <div class="sub">Green Belt · G&amp;O e Porto</div>
+    </div>
+    <div class="acoes">
+      <button class="btn" id="add">+ Projeto</button>
+      <button class="btn primaria" id="print">Imprimir / PDF</button>
+    </div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="quadro">
+    <div class="grade" id="grade"></div>
+  </div>
+
+  <div class="legenda">
+    <div class="lg"><span class="lgpt feita"></span> Etapa concluída</div>
+    <div class="lg"><span class="lgpt atual"></span> Etapa em andamento</div>
+    <div class="lg"><span class="lgpt"></span> Etapa não iniciada</div>
+  </div>
+
+  <div class="nota">
+    <kbd>1 clique</kbd> em uma bolinha marca aquela etapa como <b>em andamento</b> e conclui todas as anteriores.
+    <kbd>2º clique</kbd> na mesma bolinha conclui a etapa e avança para a próxima.
+    Nome e líder são editáveis diretamente na linha. O status é calculado automaticamente com base na fase e no prazo. Tudo salva sozinho.
+  </div>
+
+  <details class="ref">
+    <summary>As 17 etapas do roteiro DMAIC</summary>
+    <div class="refgrid" id="ref"></div>
+  </details>
+
+  <div class="rodape">
+    <span>Etapas 1 a 17 = roteiro DMAIC padrão Green Belt · % = etapas concluídas sobre 17</span>
+    <span class="salvo" id="salvo"></span>
+  </div>
+</div>
+
+<div class="dica" id="dica"></div>
+
+<script>
+const ETAPAS = [
+  "Contrato do projeto","Registro de baseline","Racional de ganho financeiro",
+  "Aprovação do patrocinador","Mapeamento do processo","Levantamento das causas",
+  "Priorização das causas (X'S)","MSA","Análises 5 PQ's (FTA)","Análises Estatísticas",
+  "X'S vitais","Criar plano de ação","Validar ações com o patrocinador",
+  "Validar benefícios financeiros","Estabelecer controles","Montar o BPM",
+  "Formalizar término do projeto"
+];
+/* ============================================================
+   CONFIGURAÇÃO DO CICLO — único lugar a editar
+   Prazos no formato dd/mm. Trocar o ano do ciclo aqui atualiza
+   todos os cálculos de status, sem datas fixas espalhadas no código.
+   ============================================================ */
+const CONFIG = {
+  anoCiclo: 2026,
+  diasAtencao: 7,
+  fases: [
+    {nome:"Definir",   ini:1,  fim:4,  prazo:"03/07", duracao:15, peso:0.10},
+    {nome:"Medir",     ini:5,  fim:8,  prazo:"31/07", duracao:30, peso:0.16},
+    {nome:"Analisar",  ini:9,  fim:11, prazo:"28/08", duracao:30, peso:0.27},
+    {nome:"Melhorar",  ini:12, fim:14, prazo:"30/10", duracao:60, peso:0.30},
+    {nome:"Controlar", ini:15, fim:17, prazo:"16/12", duracao:45, peso:0.17}
+  ]
+};
+const FASES = CONFIG.fases;
+const CLASSE = {"No prazo":"s-prazo","Em atenção":"s-atencao","Atrasado":"s-atraso","Concluído":"s-ok"};
+const CHAVE = "trilha-lss-v1";
+
+const SEMENTE = [
+  ["P1","Aumentar a produtividade da descarga ferroviária de açúcar","Enrique Dias"],
+  ["P2","Melhorar a qualidade do housekeeping operacional","Isabelle Pereira"],
+  ["P3","Melhorar o tempo de troca de porão de navios","Guilherme Silva"],
+  ["P4","Redução do consumo de energia","Dyllan Nery"],
+  ["P5","Reduzir o EDT do embarque TEC1","Renato dos Santos"],
+  ["P6","Aumentar a produtividade da descarga rodoviária","Eder Batista"],
+  ["P7","Aumentar a produtividade no embarque TEC 1","Gilson Atanasio"],
+  ["P8","Aumentar a confiabilidade de segurança na Ferrovia","Paulo Simões"],
+  ["P9","Reduzir a permanência na balança rodoviária","Bruni Souza"],
+  ["P10","Aumentar o engajamento nos treinamentos de PROC","Maria Emília"],
+  ["P11","Reduzir as divergências entre recusas de caminhões","Guilherme Simões"],
+  ["P12","Aumentar a taxa de utilização dos ativos do TEC","Gabriel Santos"]
+].map(([id,nome,lider])=>({
+  id, nome, lider,
+  etapas:[...Array(8).fill(2), 1, ...Array(8).fill(0)]
+}));
+
+let estado = {projetos: JSON.parse(JSON.stringify(SEMENTE))};
+
+/* ---------------- persistência ----------------
+   Camada de armazenamento com fallback.
+   Dentro do Claude.ai existe window.storage e é ele que é usado.
+   O ramo localStorage só é alcançado quando o arquivo é hospedado
+   fora desse ambiente — e está protegido por try/catch para nunca
+   lançar erro em contextos onde o acesso é bloqueado.
+   ------------------------------------------------ */
+const armazenamento = {
+  async obter(chave){
+    try{
+      if(window.storage?.get){
+        const r = await window.storage.get(chave);
+        return r?.value ?? null;
+      }
+    }catch(e){ /* segue para o fallback */ }
+    try{
+      return window.localStorage?.getItem(chave) ?? null;
+    }catch(e){ return null; }
+  },
+  async definir(chave, valor){
+    try{
+      if(window.storage?.set){
+        await window.storage.set(chave, valor);
+        return true;
+      }
+    }catch(e){ /* segue para o fallback */ }
+    try{
+      window.localStorage?.setItem(chave, valor);
+      return true;
+    }catch(e){ return false; }
+  }
+};
+
+/* garante 17 etapas válidas e no máximo uma etapa em andamento */
+function normalizarEtapas(etapas){
+  const valores = Array.from({length: ETAPAS.length},
+    (_, i) => [0,1,2].includes(etapas?.[i]) ? etapas[i] : 0);
+
+  const atuais = valores
+    .map((v, i) => v === 1 ? i : -1)
+    .filter(i => i >= 0);
+
+  if(atuais.length > 1){
+    const atual = atuais[0];
+    return valores.map((_, i) => i < atual ? 2 : (i === atual ? 1 : 0));
+  }
+  return valores;
+}
+
+/* normaliza um projeto vindo do armazenamento (inclui dados da v1, que traziam p.status) */
+function normalizarProjeto(p, i){
+  return {
+    id:    typeof p?.id    === "string" && p.id.trim()    ? p.id    : "P" + (i + 1),
+    nome:  typeof p?.nome  === "string" && p.nome.trim()  ? p.nome  : "Sem nome",
+    lider: typeof p?.lider === "string" ? p.lider : "",
+    etapas: normalizarEtapas(p?.etapas)
+  };
+}
+
+let timer=null;
+function salvar(){
+  clearTimeout(timer);
+  timer = setTimeout(async ()=>{
+    const ok = await armazenamento.definir(CHAVE, JSON.stringify(estado));
+    marcar(ok
+      ? "salvo " + new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})
+      : "não foi possível salvar — copie os dados antes de fechar");
+  }, 400);
+}
+function marcar(t){ document.getElementById("salvo").textContent = t; }
+
+async function carregar(){
+  try{
+    const valor = await armazenamento.obter(CHAVE);
+    if(valor){
+      const d = JSON.parse(valor);
+      if(d && Array.isArray(d.projetos) && d.projetos.length){
+        estado = { projetos: d.projetos.map(normalizarProjeto) };
+      }
+    }
+  }catch(e){ /* primeira abertura ou dado corrompido: segue com a semente */ }
+  render();
+}
+
+/* ---------------- cálculos ---------------- */
+const concluidas = p => p.etapas.filter(v=>v===2).length;
+const pct = p => Math.round(concluidas(p)/17*100);
+
+/* zera a hora para comparar apenas datas */
+const soData = d => { const x = new Date(d); x.setHours(0,0,0,0); return x; };
+
+/* converte "dd/mm" + ano do ciclo em Date */
+function prazoDe(fase){
+  const [dia, mes] = fase.prazo.split("/").map(Number);
+  return soData(new Date(CONFIG.anoCiclo, mes - 1, dia));
+}
+
+/* fase completa = todas as etapas daquela faixa concluídas */
+const faseCompleta = (p, f) => p.etapas.slice(f.ini - 1, f.fim).every(v => v === 2);
+
+/* índice da fase atual, deduzido das etapas concluídas / em andamento */
+function faseIndiceAtual(p){
+  if(concluidas(p) === 17) return FASES.length - 1;
+  let k = p.etapas.findIndex(v => v !== 2);   // primeira etapa não concluída
+  if(k === -1) k = 16;
+  const n = k + 1;
+  const i = FASES.findIndex(f => n >= f.ini && n <= f.fim);
+  return i === -1 ? 0 : i;
+}
+
+function faseDe(p){
+  if(concluidas(p) === 17) return "Concluído";
+  return FASES[faseIndiceAtual(p)].nome;
+}
+
+/* ---------------- status automático ----------------
+   Fonte única: devolve o status E a fase/prazo que o justificaram,
+   para que etiqueta, tooltip e KPIs nunca divirjam entre si.
+   ---------------------------------------------------- */
+function obterSituacao(p, hoje = new Date()){
+  if(concluidas(p) === 17){
+    return {status:"Concluído", fase:null, prazo:null, diasRestantes:null};
+  }
+
+  const h   = soData(hoje);
+  const idx = faseIndiceAtual(p);
+
+  // atrasado: fase atual, ou qualquer fase anterior ainda pendente, com prazo vencido
+  for(let i = 0; i <= idx; i++){
+    const fase  = FASES[i];
+    const prazo = prazoDe(fase);
+    if(!faseCompleta(p, fase) && prazo < h){
+      return {
+        status:"Atrasado", fase, prazo,
+        diasRestantes: Math.ceil((prazo - h) / 86400000)
+      };
+    }
+  }
+
+  const fase  = FASES[idx];
+  const prazo = prazoDe(fase);
+  const diasRestantes = Math.ceil((prazo - h) / 86400000);
+
+  // em atenção: dentro da janela e ainda não vencido
+  const emAtencao = diasRestantes >= 0 && diasRestantes <= CONFIG.diasAtencao;
+
+  return {status: emAtencao ? "Em atenção" : "No prazo", fase, prazo, diasRestantes};
+}
+
+const calcularStatus = (p, hoje = new Date()) => obterSituacao(p, hoje).status;
+
+/* ---------------- interação ---------------- */
+function clicar(pi, k){
+  const p = estado.projetos[pi];
+  const atual   = p.etapas.findIndex(v => v === 1);
+  const jaAtual = p.etapas[k] === 1;
+  const alvo    = jaAtual ? k + 1 : k;
+
+  // confirma apenas quando há retrocesso, que apagaria progresso posterior
+  if(atual !== -1 && alvo < atual &&
+     !confirm("Deseja retroceder o projeto e apagar o progresso posterior?")){
+    return;
+  }
+
+  p.etapas = p.etapas.map((_,i)=> i<alvo ? 2 : (i===alvo ? 1 : 0));
+  if(alvo > 16){ p.etapas = Array(17).fill(2); }
+  render(); salvar();
+}
+
+/* texto explicativo do status, exibido ao passar o mouse na etiqueta */
+function tituloStatus(sit){
+  if(sit.status === "Concluído") return "Todas as 17 etapas concluídas";
+  const d = sit.prazo;
+  const data = `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
+  const dias = sit.diasRestantes;
+  const restante = dias < 0 ? `vencido há ${Math.abs(dias)} dia(s)`
+                 : dias === 0 ? "vence hoje"
+                 : `faltam ${dias} dia(s)`;
+  return `${sit.fase.nome} · prazo ${data} · ${restante}`;
+}
+
+/* ---------------- render ---------------- */
+function render(){
+  const ps = estado.projetos;
+  const hoje = new Date();
+  const sits = ps.map(p => obterSituacao(p, hoje));   // fonte única: status + fase + prazo
+  const cont = s => sits.filter(v => v.status === s).length;
+  const ativos = ps.length - cont("Concluído");
+
+  document.getElementById("kpis").innerHTML = [
+    ["ativos", ativos, "Projetos ativos"],
+    ["prazo", cont("No prazo"), "No prazo"],
+    ["atencao", cont("Em atenção"), "Em atenção"],
+    ["atraso", cont("Atrasado"), "Atrasados"]
+  ].map(([c,v,r])=>`<div class="kpi ${c}"><b>${v}</b><span>${r}</span></div>`).join("");
+
+  const cols = `grid-template-columns:repeat(17,1fr)`;
+  const bandas = FASES.map((f,i)=>
+    `<div class="fase f${i+1}" style="grid-column:span ${f.fim-f.ini+1}">${f.nome}</div>`
+  ).join("");
+  const numeros = ETAPAS.map((_,i)=>`<div class="num">${i+1}</div>`).join("");
+
+  let html = `
+    <div class="lin cab">
+      <div class="cel rot">Projeto</div>
+      <div class="cel rot">Status</div>
+      <div class="cel rot" style="text-align:center">Fase atual</div>
+      <div class="cel rot" style="text-align:center">%</div>
+      <div class="cel trilha">
+        <div class="fases" style="${cols}">${bandas}</div>
+        <div class="nums" style="${cols}">${numeros}</div>
+      </div>
+    </div>`;
+
+  html += ps.map((p,pi)=>{
+    const ate = p.etapas.lastIndexOf(2);
+    const trilho = p.etapas.map((v,k)=>{
+      const cls = v===2 ? "feita" : (v===1 ? "atual" : "");
+      const seg = (v===2 && k<ate) ? " feito-ate" : "";
+      const estadoEtapa = v===2 ? "concluída" : v===1 ? "em andamento" : "não iniciada";
+      return `<div class="est${seg}">
+        <button class="pt ${cls}" data-p="${pi}" data-k="${k}"
+          aria-label="Etapa ${k+1}: ${ETAPAS[k]}, ${estadoEtapa}"
+          aria-current="${v===1 ? "step" : "false"}"></button>
+      </div>`;
+    }).join("");
+
+    return `<div class="lin">
+      <div class="cel">
+        <div class="linha-nome">
+          <span class="idp">${p.id}</span>
+          <div class="nome" contenteditable="true" data-p="${pi}" data-f="nome">${esc(p.nome)}</div>
+        </div>
+        <input class="lider" data-p="${pi}" data-f="lider" value="${esc(p.lider)}">
+      </div>
+      <div class="cel">
+        <span class="status ${CLASSE[sits[pi].status]||''}" title="${esc(tituloStatus(sits[pi]))}">${sits[pi].status}</span>
+      </div>
+      <div class="cel faserot">${faseDe(p)}</div>
+      <div class="cel pct">${pct(p)}%</div>
+      <div class="cel trilha"><div class="rail" style="${cols}">${trilho}</div></div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("grade").innerHTML = html;
+
+  document.getElementById("ref").innerHTML = FASES.map(f=>`
+    <div class="refcol"><h4>${f.nome}</h4>
+      <ol start="${f.ini}">${ETAPAS.slice(f.ini-1,f.fim).map(e=>`<li>${e}</li>`).join("")}</ol>
+    </div>`).join("");
+}
+
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+
+/* ---------------- eventos ---------------- */
+document.addEventListener("click", e=>{
+  const b = e.target.closest(".pt");
+  if(b) clicar(+b.dataset.p, +b.dataset.k);
+});
+document.addEventListener("input", e=>{
+  const t = e.target;
+  if(t.dataset.f){
+    const valor = t.isContentEditable ? t.textContent : t.value;
+    estado.projetos[+t.dataset.p][t.dataset.f] = valor;
+    salvar();
+  }
+});
+document.addEventListener("keydown", e=>{
+  if(e.target.matches(".nome") && e.key === "Enter") e.preventDefault();
+});
+document.addEventListener("blur", e=>{
+  if(e.target.matches(".nome")){
+    const p = estado.projetos[+e.target.dataset.p];
+    if(!p.nome.trim()){ p.nome = "Sem nome"; render(); salvar(); }
+  }
+}, true);
+
+const dica = document.getElementById("dica");
+function mostrarDica(b){
+  const k = +b.dataset.k, p = estado.projetos[+b.dataset.p];
+  const st = p.etapas[k]===2 ? "concluída" : p.etapas[k]===1 ? "em andamento" : "não iniciada";
+  dica.innerHTML = `<b>${k+1}.</b> ${ETAPAS[k]}<br>${st}`;
+  const r = b.getBoundingClientRect();
+  dica.style.left = Math.min(r.left, window.innerWidth-250) + "px";
+  dica.style.top  = (r.bottom + 8) + "px";
+  dica.classList.add("on");
+}
+document.addEventListener("mouseover", e=>{
+  const b = e.target.closest(".pt");
+  if(b) mostrarDica(b);
+});
+document.addEventListener("focusin", e=>{
+  const b = e.target.closest(".pt");
+  if(b) mostrarDica(b);
+});
+document.addEventListener("mouseout", e=>{
+  if(e.target.closest(".pt")) dica.classList.remove("on");
+});
+document.addEventListener("focusout", e=>{
+  if(e.target.closest(".pt")) dica.classList.remove("on");
+});
+
+document.getElementById("add").onclick = ()=>{
+  const n = estado.projetos.length + 1;
+  estado.projetos.push({
+    id:"P"+n, nome:"Novo projeto", lider:"Definir líder",
+    etapas:[1,...Array(16).fill(0)]
+  });
+  render(); salvar();
+};
+document.getElementById("print").onclick = ()=> window.print();
+
+/* status depende da data: revalida ao voltar para a aba e de hora em hora */
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) render(); });
+setInterval(render, 60 * 60 * 1000);
+
+carregar();
+</script>
